@@ -1,0 +1,97 @@
+MATCH (s:Student)-[:ENROLLED_IN]->(c:Course)<-[:ENROLLED_IN]-(other:Student)
+MATCH (other)-[:ENROLLED_IN]->(rec:Course)
+WHERE NOT (s)-[:ENROLLED_IN]->(rec)
+RETURN s.name AS Student, collect(DISTINCT rec.name) AS RecommendedCourses;
+
+MATCH (s:Student)-[:BELONGS_TO]->(d:Department)
+RETURN d.name AS Department, count(s) AS NumberOfStudents
+ORDER BY NumberOfStudents DESC;
+
+MATCH (i:Instructor)-[:TEACHES]->(c:Course)
+WITH i, count(c) AS numCourses
+WHERE numCourses > 1
+RETURN i.name AS Instructor, numCourses AS NumberOfCourses;
+
+MATCH (s:Student)-[:ENROLLED_IN]->(c:Course)
+RETURN c.name AS Course, collect(s.name) AS Students;
+
+MATCH (n)-[r]->(m)
+RETURN n, r, m;
+
+MATCH (s1:Student {name: 'Mahmoud'}), (c1:Course {id: 'CS101'})
+CREATE (s1)-[:ENROLLED_IN]->(c1)
+
+MATCH (s1:Student {name: 'Mahmoud'}), (c2:Course {id: 'CS102'})
+CREATE (s1)-[:ENROLLED_IN]->(c2)
+
+MATCH (s2:Student {name: 'Alfred'}), (c1:Course {id: 'CS101'})
+CREATE (s2)-[:ENROLLED_IN]->(c1)
+
+MATCH (s2:Student {name: 'Alfred'}), (c3:Course {id: 'MATH101'})
+CREATE (s2)-[:ENROLLED_IN]->(c3)
+
+MATCH (s3:Student {name: 'Zainab'}), (c2:Course {id: 'CS102'})
+CREATE (s3)-[:ENROLLED_IN]->(c2)
+
+MATCH (s4:Student {name: 'Mariam'}), (c1:Course {id: 'CS101'})
+CREATE (s4)-[:ENROLLED_IN]->(c1)
+
+MATCH (s4:Student {name: 'Mariam'}), (c3:Course {id: 'MATH101'})
+CREATE (s4)-[:ENROLLED_IN]->(c3)
+
+MATCH (i1:Instructor {id: 'I001'}), (c1:Course {id: 'CS101'})
+CREATE (i1)-[:TEACHES]->(c1)
+
+MATCH (i1:Instructor {id: 'I001'}), (c2:Course {id: 'CS102'})
+CREATE (i1)-[:TEACHES]->(c2)
+
+MATCH (i2:Instructor {id: 'I002'}), (c2:Course {id: 'CS102'})
+CREATE (i2)-[:TEACHES]->(c2)
+
+MATCH (i3:Instructor {id: 'I003'}), (c3:Course {id: 'MATH101'})
+CREATE (i3)-[:TEACHES]->(c3)
+
+MATCH (c1:Course {id: 'CS101'}), (d1:Department {name: 'Computer Science'})
+CREATE (c1)-[:BELONGS_TO]->(d1)
+
+MATCH (c2:Course {id: 'CS102'}), (d1:Department {name: 'Computer Science'})
+CREATE (c2)-[:BELONGS_TO]->(d1)
+
+MATCH (c3:Course {id: 'MATH101'}), (d2:Department {name: 'Mathematics'})
+CREATE (c3)-[:BELONGS_TO]->(d2)
+
+MATCH (s1:Student {name: 'Mahmoud'}), (d1:Department {name: 'Computer Science'})
+CREATE (s1)-[:BELONGS_TO]->(d1)
+
+MATCH (s2:Student {name: 'Alfred'}), (d2:Department {name: 'Mathematics'})
+CREATE (s2)-[:BELONGS_TO]->(d2)
+
+MATCH (s3:Student {name: 'Zainab'}), (d1:Department {name: 'Computer Science'})
+CREATE (s3)-[:BELONGS_TO]->(d1)
+
+MATCH (s4:Student {name: 'Mariam'}), (d2:Department {name: 'Mathematics'})
+CREATE (s4)-[:BELONGS_TO]->(d2);
+
+MATCH (n)
+RETURN n;
+
+MATCH (m:Movie)
+DELETE m;
+
+MATCH (n)
+RETURN n;
+
+CREATE (d1:Department {name: 'Computer Science'})
+CREATE (d2:Department {name: 'Mathematics'})
+CREATE (i1:Instructor {name: 'Dr. Kyrellos', id: 'I001'})
+CREATE (i2:Instructor {name: 'Dr. Sara', id: 'I002'})
+CREATE (i3:Instructor {name: 'Dr. Mohamed', id: 'I003'})
+CREATE (c1:Course {name: 'Database Systems', id: 'CS101'})
+CREATE (c2:Course {name: 'Algorithms', id: 'CS102'})
+CREATE (c3:Course {name: 'Calculus', id: 'MATH101'})
+CREATE (s1:Student {name: 'Mahmoud', id: 'S001'})
+CREATE (s2:Student {name: 'Alfred', id: 'S002'})
+CREATE (s3:Student {name: 'Zainab', id: 'S003'})
+CREATE (s4:Student {name: 'Mariam', id: 'S004'});
+
+CREATE DATABASE mariam;
